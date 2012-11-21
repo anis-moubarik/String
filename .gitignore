@@ -19,3 +19,5 @@
 *.user
 *.filters
 *.opensdf
+*.log
+Debug/
