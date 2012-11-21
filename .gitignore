@@ -11,3 +11,11 @@
 *.lai
 *.la
 *.a
+
+*.sdf
+*.sln
+*.suo
+*.vcxproj
+*.user
+*.filters
+*.opensdf
