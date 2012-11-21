@@ -20,4 +20,5 @@
 *.filters
 *.opensdf
 *.log
+*.tlog
 Debug/
