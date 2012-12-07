@@ -1,4 +1,7 @@
 #include <iostream>
+#include <assert.h>
+#include <vector>
+#include "StringException.h"
 #include "String.h"
 
 //Constructor for empty String
@@ -36,10 +39,12 @@ String::~String()
 {
 	delete [] string;
 	length = 0;
+	check();
 }
 
 String String::operator+(const String & str)
 {
+	str.check();
 	unsigned int i, j, totalLength;
 	totalLength = length + str.strlength();
 	char* newString = new char[totalLength];
@@ -55,6 +60,8 @@ String String::operator+(const String & str)
 
 	newString[totalLength] = '\0';
 	String temp(newString);
+	length = totalLength;
+	str.check();
 	return temp;
 }
 
@@ -67,11 +74,13 @@ template<class T> void swap(T& a, T& b)
 
 void String::swap(String & str)
 {
+	str.check();
 	::swap(string, str.string);
 }
 
 String & String::operator=(const String & str)
 {
+	str.check();
 	String temp(str);
 	swap(temp);
 
@@ -80,13 +89,15 @@ String & String::operator=(const String & str)
 
 std::ostream & operator <<(std::ostream & output, const String & str)
 {
+	str.check();
 	output << str.string;
 	return output;
 }
 
 char & String::operator[](unsigned int index)
 {
-	if(index > length)
+	check();
+	if(index > length && index < 0)
 		return string[length-1];
 	else
 		return string[index];
@@ -95,8 +106,22 @@ char & String::operator[](unsigned int index)
 //immutable
 char String::operator[](unsigned int index) const
 {
-	if(index > length)
+	check();
+	if(index > length && index < 0)
 		return string[length-1];
 	else
 		return string[index];
+}
+
+void String::check() const
+{
+	myAssert(length > 0);
+	if(length > 0)
+		myAssert(string[length] == '\0');
+}
+
+void String::__myAssert(bool passed)
+{
+	if(passed == false)
+		throw StringException("StringException!");
 }
